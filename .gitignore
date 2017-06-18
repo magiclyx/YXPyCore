@@ -8,10 +8,13 @@ Desktop.ini
 .DS_Store
 *.swp
 
-
 # python
 *.pyc
 *.so
 *.egg
 *.egg-info
 .idea
+
+# project
+YXAnalysis.py
+config.py
