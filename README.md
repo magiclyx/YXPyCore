@@ -1,2 +1,2 @@
 # YXPyCore
-用于组织复杂Python App 的框架
+一个 Python App 的框架
