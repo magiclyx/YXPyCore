@@ -171,7 +171,6 @@ def setting_for_keypath(key_path):
     return copyed_value if copyed_value is not None else value
 
 
-
 def default_setting_for_key_path(key_path):
     pass
 

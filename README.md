@@ -1,6 +1,8 @@
 # YXPyCore
 一个 Python App 的框架
 
+## Python
+支持Python2 和 Python3
 
 ## 安装
 `pip install -r requirements`
