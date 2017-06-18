@@ -1,0 +1,2 @@
+backports.inspect==0.0.3 ; python_version < '3.0'
+six==1.10.0 ; python_version >= '3.0'
