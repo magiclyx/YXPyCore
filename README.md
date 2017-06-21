@@ -42,7 +42,7 @@ YXAPPLICATION = {
 DEBUG = True
 ```
 
-#### 安装的库
+#### 安装的程序包
 ```python
 YXINSTALLED_LIBS = [
 'lib_A',
@@ -53,10 +53,54 @@ YXINSTALLED_LIBS = [
 
 #### 命令行解析
 ```python
-YXCOMMANDLINE = []
+# 一个非常简单的命令行配置
+YXCOMMANDLINE = {
+    'description': '描述信息, 使用 %(prog)s command --help 获得指定子命令的信息',
+    'formatter_class': argparse.RawDescriptionHelpFormatter,
+    'commandline_define': [
+        argument('--workspace', help='指定workspace', type=str, required=True),
+        argument('--scheme', help='指定scheme', type=str, required=True),
+    ],
+}
 ```
 
 #### 日志
 ```python
-YXLOGGER = []
+# 一个非常简单的指向标准输出的日志配置
+YXLOGGER = {
+
+    # format
+    'formatters': {
+        'raw': {
+            'format': '%(message)s',
+            'datefmt': '%Y-%m-%d %H:%M:%S',
+        }
+    },
+
+    # handler
+    'handlers': {
+        'console': {
+            'loader': 'yxcore.logger.loaders.handler_loader.StreamHandlerLoader',
+            'level': 'WARNING',
+            'formatters': 'raw',
+            'filters': [],
+        },
+    },
+
+    # logger
+    'loggers': {
+        'default_logger': {
+            'handlers': ['console',],
+            'propagate': False,
+            'level': 'INFO',
+        },
+    },
+
+    # default setting name
+    'default_log_identifier': 'default_logger',
+
+}
 ```
+
+#### 详细信息
+[参看wiki](https://github.com/magiclyx/YXPyCore/wiki)

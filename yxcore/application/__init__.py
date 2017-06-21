@@ -60,7 +60,7 @@ def initialize(argv=None):
         # 加载用户配置文件
         setting_module = loader.load(setting_path, SETTING_KEY.CUSTOM_SETTING_MODUE_NAME)
 
-        # 显示的家在environment(此时可能已经加载过了)
+        # 显示的加载environment(此时可能已经加载过了)
         loader.load('yxcore.environment')
 
         # 显示的加载通知模块(此时可能已经加载过了)
