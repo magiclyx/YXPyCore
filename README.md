@@ -53,7 +53,7 @@ YXINSTALLED_LIBS = [
 
 #### 命令行解析
 ```python
-# 一个非常简单的命令行配置
+# 一个非常简单的命令行配置(非子命令)
 YXCOMMANDLINE = {
     'description': '描述信息, 使用 %(prog)s command --help 获得指定子命令的信息',
     'formatter_class': argparse.RawDescriptionHelpFormatter,
@@ -69,35 +69,17 @@ YXCOMMANDLINE = {
 # 一个非常简单的指向标准输出的日志配置
 YXLOGGER = {
 
-    # format
-    'formatters': {
-        'raw': {
-            'format': '%(message)s',
-            'datefmt': '%Y-%m-%d %H:%M:%S',
-        }
-    },
-
-    # handler
-    'handlers': {
-        'console': {
-            'loader': 'yxcore.logger.loaders.handler_loader.StreamHandlerLoader',
-            'level': 'WARNING',
-            'formatters': 'raw',
-            'filters': [],
-        },
-    },
+    # default setting name
+    'default_log_identifier': 'default_logger',
 
     # logger
     'loggers': {
         'default_logger': {
-            'handlers': ['console',],
+            'handlers': ['console'],
             'propagate': False,
-            'level': 'INFO',
+            'level': 'DEBUG',
         },
     },
-
-    # default setting name
-    'default_log_identifier': 'default_logger',
 
 }
 ```
