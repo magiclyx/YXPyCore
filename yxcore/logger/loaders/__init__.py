@@ -23,10 +23,22 @@ settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.FORMATTERS, config.
 settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.FILTERS, config.filters)
 # handlers
 settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.HANDLERS, config.handlers)
+# 日志
+
+
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.LOGGERS, config.loggers)
 # 默认日志 - id
 settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_IDENTIFIER, config.default_log_identifier)
-# 日志
-settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.LOGGERS, config.loggers)
+# 默认 - handlers
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_HANDLE, config.default_log_handle)
+# 默认 - level
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_LEVEL, config.default_log_level)
+# 默认 - formatters
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_FORMATTER, config.default_log_formatters)
+# 默认 - filters
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_FILTER, config.default_log_filters)
+# 默认 - propagate
+settings.regist_default(LOGGER_KEY.CATEGORY_NAME, LOGGER_KEY.DEFAULT_LOG_PROPAGATE, config.default_log_propagate)
 
 
 _default_logger_identifier = None
@@ -78,5 +90,3 @@ def get_logger(identifier=None):
 
 def get_default_logger():
     return get_logger()
-
-

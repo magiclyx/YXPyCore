@@ -8,7 +8,6 @@ from yxcore.logger.loaders import common
 from yxcore.logger.loaders.common import LOGGER_KEY
 
 
-
 __author__ = 'yuxi'
 
 

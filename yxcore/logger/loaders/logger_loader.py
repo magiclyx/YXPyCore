@@ -17,14 +17,16 @@ class LoggerLoader(common.BasicLoader):
         self.name = name
 
         self.level = self.value_for_key('level')
+        if self.level is None:
+            self.level = self.default_value_for_key(LOGGER_KEY.DEFAULT_LOG_LEVEL)
 
         self.propagate = self.value_for_key('propagate')
         if self.propagate is None:
-            self.propagate = True
+            self.propagate = self.default_value_for_key(LOGGER_KEY.DEFAULT_LOG_PROPAGATE)
 
         self.handlers_name_list = self.value_for_key('handlers')
         if self.handlers_name_list is None:
-            self.handlers_name_list = []
+            self.handlers_name_list = self.default_value_for_key(LOGGER_KEY.DEFAULT_LOG_HANDLE)
 
     def load(self):
         # 初始化 handle

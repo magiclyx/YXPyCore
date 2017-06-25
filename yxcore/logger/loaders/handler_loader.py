@@ -111,7 +111,8 @@ class StreamHandlerLoader(HandlerLoader):
         # self.stream = self.value_for_key('stream')
 
     def load(self):
-        return logging.StreamHandler(self.stream)
+        handle = logging.StreamHandler(self.stream)
+        return self.setup_handler(handle)
 
 
 class FileHandlerLoader(HandlerLoader):
@@ -155,7 +156,8 @@ class RotatingFileHandlerLoader(BaseRotatingHandlerLoader):
         self.buckupCount = int(buckup_count_string) if buckup_count_string is not None else 0
 
     def load(self):
-        handle = logging.handlers.RotatingFileHandler(self.filename, self.mode, self.maxBytes, self.buckupCount, self.encoding, self.delay)
+        handle = logging.handlers.RotatingFileHandler(self.filename, self.mode, self.maxBytes, self.buckupCount,
+                                                      self.encoding, self.delay)
         return self.setup_handler(handle)
 
 
@@ -180,5 +182,6 @@ class TimedRotatingFileHandlerLoader(BaseRotatingHandlerLoader):
         self.atTime = self.value_for_key('atTime')
 
     def load(self):
-        handle = logging.handlers.TimedRotatingFileHandler(self.filename, self.when, self.interval, self.buckupCount, self.encoding, self.delay, self.utc, self.atTime)
+        handle = logging.handlers.TimedRotatingFileHandler(self.filename, self.when, self.interval, self.buckupCount,
+                                                           self.encoding, self.delay, self.utc, self.atTime)
         return self.setup_handler(handle)
