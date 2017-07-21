@@ -65,7 +65,7 @@ def _walk_config(argv, config, parent=None):
     config.pop('parents', None)  # 这要删掉配置中的parents
 
     # 取得程序入口，并从配置中删除 (这是我们自定义的属性，不能传入argparse)
-    entry = config.pop('commandline_entry', None)
+    entry_point = config.pop('commandline_entry', None)
 
     # 获取all_command_line, 并从配置文件中删除 (这是我们自定义的属性，不能传入argparse)
     all_command_line = config.pop('commandline_define', None)
@@ -85,10 +85,13 @@ def _walk_config(argv, config, parent=None):
         _add_cmdline(cmdline_parser, all_command_line)
 
         # 如果entry 是个字符串，尝试加载entry对应的函数
-        if isinstance(entry, six.string_types):  # #:~ python2 adaptation
-            entry = loader.item_by_path(entry)
+        if isinstance(entry_point, six.string_types):  # #:~ python2 adaptation
+            entry_point_string = entry_point
+            entry_point = loader.item_by_path(entry_point_string)
+            if entry_point is None:
+                raise YXSettingErrorException('无法加载入口:%s' % (entry_point_string, ))
 
-        return [cmdline_parser.parse_args(argv), entry]
+        return [cmdline_parser.parse_args(argv), entry_point]
 
     elif isinstance(all_command_line, dict):
 
