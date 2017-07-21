@@ -91,12 +91,12 @@ def initialize(argv=None):
 
     except ImportError as msg:
         """注意，因为这里还没有初始化setting, 只能使用标准输出，输出错误"""
-        logger.Std.error('can not load setting file(%s). \n%s\n%s' % (setting_path, msg, traceback.format_exc()))
+        logger.Std.error('can not load setting file(%s). \n%s\n%s' % (setting_path, msg, six.u(traceback.format_exc())))
         sys.exit(1)
     except Exception as msg:
         """注意，因为这里还没有初始化setting, 只能使用标准输出，输出错误"""
-        six.print_(str(msg))
-        logger.Std.error('unknown error on load:%s\n%s\n%s' % (setting_path, msg, traceback.format_exc()))
+        six.print_(msg.message)
+        logger.Std.error('unknown error on load:%s\n%s\n%s' % (setting_path, msg, six.u(traceback.format_exc())))
         sys.exit(1)
 
     return _current_application
