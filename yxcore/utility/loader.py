@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 import sys
 import importlib
-# import six
 import os
 
 
@@ -43,7 +42,7 @@ def load(path, module_name=None):
             # 实际上，cache_from_source 是需要.py扩展名的, 上面是为了处理方便. 这部分可以考虑重写
             return importlib.util.cache_from_source(source_path + '.py')
         else:
-            raise ImportError('not implement in python %d.%d.%d' % (sys.version_info[0:3]))
+            raise ImportError('not implement in python %d.%d.%d' % sys.version_info[0:3])
 
     def _fixed_load_compiled(load_module_name, load_module_path):
         """
@@ -113,6 +112,7 @@ def load(path, module_name=None):
     package_path = parent_path
     current_package_info = None
     package_list = package_info.split('.')
+    module = None
     for package_name in package_list:
 
         if current_package_info is None:
