@@ -58,16 +58,24 @@ def initialize(argv=None):
 
     try:
         # 加载用户配置文件
-        setting_module = loader.load(setting_path, SETTING_KEY.CUSTOM_SETTING_MODUE_NAME)
+        setting_module = loader.load(setting_path, module_name=SETTING_KEY.CUSTOM_SETTING_MODUE_NAME)
+        if setting_module is None:
+            raise YXLauchErrorException('配置文件路径没有正确设置')
+
+        yxcore_lib_path = os.environ.get(SETTING_KEY.YXCORE_PATH)
+        if yxcore_lib_path is None:
+            raise YXLauchErrorException('YXCore 路径没有正确设置')
+
+        yxcore_lib_base_path = os.path.dirname(yxcore_lib_path)
 
         # 显示的加载environment(此时可能已经加载过了)
-        loader.load('yxcore.environment')
+        loader.load(os.path.join(yxcore_lib_base_path, 'yxcore.environment'))
 
         # 显示的加载通知模块(此时可能已经加载过了)
-        loader.load('yxcore.event')
+        loader.load(os.path.join(yxcore_lib_base_path, 'yxcore.event'))
 
         # 显示的加载日志模块(此时可能已经加载过了)
-        loader.load('yxcore.logger')
+        loader.load(os.path.join(yxcore_lib_base_path, 'yxcore.logger'))
 
         # 加载各个模块
         all_libs_name = getattr(setting_module, SETTING_KEY.INSTALLED_LIBS, [])

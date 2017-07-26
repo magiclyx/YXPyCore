@@ -2,14 +2,22 @@
 
 from __future__ import unicode_literals
 import sys
-import importlib
 import os
+import importlib
 
 
 __author__ = 'yuxi'
 
 
-def load(path, module_name=None):
+def load(path, **kwargs):
+    """
+    加载库，支持参数
+    module_name 额外置顶一个模块名称
+    force_reload 若模块已经加载，是否强制重新加载
+    """
+
+    module_name = kwargs.get('module_name', None)
+    forece_reload = kwargs.get('forece_reload', False)
 
     def _py2_check_magic_num(cache_path):
         """
@@ -26,6 +34,7 @@ def load(path, module_name=None):
         """
         根据python文件，获取编译后缓存文件的位置
         """
+
         if sys.version_info[0] is 2:
             import imp
             cache_path = source_path + '.pyc'
@@ -48,6 +57,9 @@ def load(path, module_name=None):
         """
         加载编译后的文件
         """
+        if forece_reload is False and load_module_name in sys.modules:
+            return sys.modules[load_module_name]
+
         if sys.version_info[0] == 2:
             import imp
             return imp.load_compiled(load_module_name, load_module_path)
@@ -68,6 +80,9 @@ def load(path, module_name=None):
         """
         加载源码文件
         """
+        if forece_reload is False and load_module_name in sys.modules:
+            return sys.modules[load_module_name]
+
         if sys.version_info[0] == 2:
             import imp
             return imp.load_source(load_module_name, load_module_path)
