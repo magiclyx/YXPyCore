@@ -16,6 +16,7 @@ def load(path, **kwargs):
     force_reload 若模块已经加载，是否强制重新加载
     """
 
+    # 取kwargs 参数
     module_name = kwargs.get('module_name', None)
     forece_reload = kwargs.get('forece_reload', False)
 
@@ -144,7 +145,8 @@ def load(path, **kwargs):
             raise ImportError('无效包路径 %s' % (path, ))
 
     if module is not None and module_name is not None:
-        sys.modules[module_name] = module
+        if module_name not in sys.modules:
+            sys.modules[module_name] = module
 
     return module
 
