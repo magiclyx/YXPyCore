@@ -34,6 +34,10 @@ def load(path, **kwargs):
     def _fixed_cache_from_source(source_path):
         """
         根据python文件，获取编译后缓存文件的位置
+
+        注意：！！！！
+        这里貌似有问题。已经发现了代码改动后还是执行以前cache的情况。
+        试着把cache删掉，看看会不会解决问题！！！！！
         """
 
         if sys.version_info[0] is 2:
@@ -170,7 +174,8 @@ def item_by_path(path):
     class_name = path[index + 1:]
 
     # module 必须已经加载, build-in module, 已经import, 使用importlib.import_module 加载
-    module = sys.modules.get(module_name, None)
+    #module = sys.modules.get(module_name, None)
+    module = load(module_name)
     if module is None:
         raise ImportError('没有找到module:%s' % (module_name,))
 
