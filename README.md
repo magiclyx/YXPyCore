@@ -2,7 +2,9 @@
 一个 Python App 的框架
 
 ## Python
-支持Python2 和 Python3
+已不再同时兼容 python2 和 python3。
+master 分支只支持python3
+compatible23 分支是之前同时兼容 python2 和 python3 的版本。 如无特殊原因，此分支不再更新
 
 ## 安装
 `pip install -r requirements`
