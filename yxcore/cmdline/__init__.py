@@ -11,7 +11,6 @@ from yxcore import settings
 from yxcore.utility.exception import YXSettingErrorException
 
 from yxcore.cmdline import config as default_config
-import six
 
 __author__ = 'yuxi'
 
@@ -30,8 +29,7 @@ settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'fromfile_prefix_chars', defa
 settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'argument_default', default_config.argument_default)
 settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'conflict_handler', default_config.conflict_handler)
 settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'add_help', default_config.add_help)
-if six.PY3:  # #:~ python2 adaptation
-    settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'allow_abbrev', default_config.allow_abbrev)
+settings.regist_default(CMDLINE_KEY.CATEGORY_NAME, 'allow_abbrev', default_config.allow_abbrev)
 
 
 def argument(*argv, **kwargs):
@@ -73,7 +71,7 @@ def _walk_config(argv, config, parent=None):
         raise YXSettingErrorException('配置文件中，没有正确的配置commandline_define')
 
     # 如果是字符串配置的路径，这里要根据字符串加载(例如 'xx.xxx.setting.commandline')
-    if isinstance(all_command_line, six.string_types):  # #:~ python2 adaptation
+    if isinstance(all_command_line, str):
         all_command_line = loader.item_by_path(all_command_line)
 
     # 开始解析命令行树
@@ -85,7 +83,7 @@ def _walk_config(argv, config, parent=None):
         _add_cmdline(cmdline_parser, all_command_line)
 
         # 如果entry 是个字符串，尝试加载entry对应的函数
-        if isinstance(entry_point, six.string_types):  # #:~ python2 adaptation
+        if isinstance(entry_point, str):
             entry_point_string = entry_point
             entry_point = loader.item_by_path(entry_point_string)
             if entry_point is None:

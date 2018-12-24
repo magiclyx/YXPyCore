@@ -14,55 +14,31 @@ def load(path, **kwargs):
     加载库，支持参数
     module_name 额外置顶一个模块名称
     force_reload 若模块已经加载，是否强制重新加载
+    force_cache 优先使用缓存(注意这里有问题，如果强制使用缓存。如果代码改变了，但还是会运行之前缓存的逻辑)
     """
 
     # 取kwargs 参数
     module_name = kwargs.get('module_name', None)
-    forece_reload = kwargs.get('forece_reload', False)
-
-    def _py2_check_magic_num(cache_path):
-        """
-        验证编译后文件的magic number , 是否和当前python解释器兼容
-        """
-        import imp
-        if os.access(cache_path, os.F_OK) and os.access(cache_path, os.R_OK):
-            with open(cache_path, 'r') as f:
-                magic = f.read(4)
-                if magic is not None:
-                    return True if magic == imp.get_magic() else False
+    force_reload = kwargs.get('force_reload', False)
+    force_cache = kwargs.get('force_cache', False)
 
     def _fixed_cache_from_source(source_path):
         """
-        根据python文件，获取编译后缓存文件的位置
-
-        注意：！！！！
-        这里貌似有问题。已经发现了代码改动后还是执行以前cache的情况。
-        试着把cache删掉，看看会不会解决问题！！！！！
+        这里需要找一个方法，判断文件是否被改变了。
         """
-
-        if sys.version_info[0] is 2:
-            import imp
-            cache_path = source_path + '.pyc'
-            if _py2_check_magic_num(cache_path) is True:
-                return cache_path
-
-            cache_path = source_path + '.pyo'
-            if _py2_check_magic_num(cache_path) is True:
-                return cache_path
-
-            return None
-        elif sys.version_info[0] is 3:
+        if force_cache:
             import importlib.util
             # 实际上，cache_from_source 是需要.py扩展名的, 上面是为了处理方便. 这部分可以考虑重写
             return importlib.util.cache_from_source(source_path + '.py')
         else:
-            raise ImportError('not implement in python %d.%d.%d' % sys.version_info[0:3])
+            return None
+
 
     def _fixed_load_compiled(load_module_name, load_module_path):
         """
         加载编译后的文件
         """
-        if forece_reload is False and load_module_name in sys.modules:
+        if force_reload is False and load_module_name in sys.modules:
             return sys.modules[load_module_name]
 
         if sys.version_info[0] == 2:
@@ -85,7 +61,7 @@ def load(path, **kwargs):
         """
         加载源码文件
         """
-        if forece_reload is False and load_module_name in sys.modules:
+        if force_reload is False and load_module_name in sys.modules:
             return sys.modules[load_module_name]
 
         if sys.version_info[0] == 2:

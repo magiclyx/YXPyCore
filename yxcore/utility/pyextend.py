@@ -2,7 +2,6 @@
 
 from __future__ import unicode_literals
 from functools import partial
-import six
 
 __author__ = 'yuxi'
 
@@ -23,10 +22,8 @@ class _Singleton(type):
         return cls._instances[cls]
 
 
-# class Singleton(_Singleton('SingletonMeta', (object,), {})):
-class Singleton(_Singleton(str('SingletonMeta'), (object,), {})):  # #:~ python2 adaptation
+class Singleton(metaclass=_Singleton):
     pass
-
 
 # 只支持 python2 的写法
 # class Singleton(object):
@@ -35,6 +32,11 @@ class Singleton(_Singleton(str('SingletonMeta'), (object,), {})):  # #:~ python2
 # 只支持 python3 的写法
 # class Singleton(metaclass=_Singleton):
 #     pass
+
+# 同时支持python2/python3 的写法
+#class Singleton(_Singleton(str('SingletonMeta'), (object,), {})):
+#    pass
+
 
 
 """
@@ -79,7 +81,7 @@ class Automethod(object):
         self.function = function
 
 
-class switch(object):
+class Switch(object):
     """
     实现的一个switch
 
@@ -138,6 +140,7 @@ class switch(object):
 
         if self.value_func is not None:
             value = self.value_func()
+            self.fall = False # 如果重新取了 value, 更改self.fall 的状态
         else:
             value = self.value
 
@@ -150,7 +153,8 @@ class switch(object):
         else:
             return False
 
-def enumAuto(*sequential, **named):
+
+def enum_auto(*sequential, **named):
     """
         TYPE = enumAuto('TYPE_A', 'TYPE_B', 'TYPE_C', )
 
@@ -164,7 +168,7 @@ def enumAuto(*sequential, **named):
     return type(str('Enum'), (), enums)
 
 
-def enumDef(**enums):
+def enum_def(**enums):
     """
     _LMSectionType = enumDef(TYPE_A='A', TYPE_B='B', TYPE_C='C', )
     """

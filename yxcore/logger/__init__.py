@@ -14,7 +14,6 @@ from yxcore import environment as env
 from yxcore.settings import SETTING_EVENT
 from yxcore.logger import loaders
 from yxcore.logger import levels
-from six import print_
 
 
 __author__ = 'yuxi'
@@ -26,13 +25,11 @@ class Std(object):
     """
     @staticmethod
     def output(*args, **kwargs):
-        # print(*args, file=sys.stdout, **kwargs) # #:~ python2 adaptation
-        print_(*args, file=sys.stdout, **kwargs)
+        print(*args, file=sys.stdout, **kwargs)
 
     @staticmethod
     def error(*args, **kwargs):
-        # print(*args, file=sys.stderr, **kwargs) # #:~ python2 adaptation
-        print_(*args, file=sys.stderr, **kwargs)
+        print(*args, file=sys.stderr, **kwargs)
 
 
 class Logger(object):

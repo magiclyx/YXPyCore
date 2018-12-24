@@ -55,7 +55,6 @@ import logging
 import sys
 import _thread as thread  # pytho3 bridge
 import types
-import six
 
 from functools import wraps
 from itertools import chain
@@ -138,12 +137,15 @@ def loggable(obj):
 ######################################################################
 
 _logger_factory = logging
+
+
 def getLoggerFactory():
     """Retrieve the current factory object for creating loggers.
     The default is to use the logging module.
     """
     global _logger_factory
     return _logger_factory
+
 
 def setLoggerFactory(factory):
     """Set a factory object for creating loggers.  This object must
@@ -158,6 +160,7 @@ def setLoggerFactory(factory):
 ######################################################################
 #  class PrependLoggerFactory
 ######################################################################
+
 
 class PrependLoggerFactory(object):
     """This is a convenience class for creating new loggers for the
@@ -561,7 +564,7 @@ def trace(_name=logger.get_logger()):
             logger = getLoggerFactory().getLogger(__fqfn)
         elif loggable(_name):
             logger = _name
-        elif isinstance(_name, six.string_types):
+        elif isinstance(_name, str):
             logger = getLoggerFactory().getLogger(_name)
         else:
             raise ValueError('invalid object %r: must be a function, a method, a string or an object that implements the Logger API' % _name)

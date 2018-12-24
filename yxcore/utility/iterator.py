@@ -3,7 +3,6 @@
 from __future__ import unicode_literals
 import collections
 from collections import deque
-import six
 
 
 __author__ = 'yuxi'
@@ -91,7 +90,7 @@ class RollbackIterator(object):
         if len(self.rollback_queue) is not 0:
             item = self.rollback_queue.popleft()
         else:
-            item = six.next(self.it)  # #:~ python2 adaptation
+            item = next(self.it)
         self.buckup_queue.append(item)
         return item
 

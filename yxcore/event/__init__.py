@@ -10,11 +10,7 @@ from functools import partial
 from yxcore.utility.exception import YXParameterErrorException
 from yxcore.utility.warning import AsyncWarnging
 
-# #:~ python2 adaptation
-if environment.is_python3():
-    from inspect import signature
-else:
-    from backports.inspect import signature
+from inspect import signature
 
 
 __author__ = 'yuxi'

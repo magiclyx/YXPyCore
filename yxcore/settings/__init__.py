@@ -8,7 +8,6 @@ from yxcore.utility import const
 from yxcore.utility.loader import safe_method_call
 from yxcore import event
 from yxcore import environment as env
-import six
 
 
 __author__ = 'yuxi'
@@ -80,7 +79,7 @@ def _keypath_walker_generator(module):
 
     def _keypath_walker(key1, key2):
 
-        if isinstance(key1, six.string_types):
+        if isinstance(key1, str):
             value = _value_for_object(module, key1)
         else:
             value = key1
@@ -142,17 +141,11 @@ def setting_for_keypath(key_path):
 
             # 将value并入customValue
             if isinstance(custom_value, dict):
-                # value = {**custom_value, **value}  # #:~ python2 adaptation
-                value_tmp = custom_value.copy()
-                value_tmp.update(value)
-                value = value_tmp
+                value = {**custom_value, **value}
 
             # 如果value 是字典，试着合并 default value
             if isinstance(default_value, dict):
-                # value = {**default_value, **value}  # #:~ python2 adaptation
-                value_tmp = default_value.copy()
-                value_tmp.update(value)
-                value = value_tmp
+                value = {**default_value, **value}
 
     elif custom_value is not None:
         value = custom_value
@@ -160,10 +153,7 @@ def setting_for_keypath(key_path):
         # 如果value 是字典，试着合并 default value
         if isinstance(default_value, dict):
             if isinstance(default_value, dict):
-                # value = {**default_value, **value} # #:~ python2 adaptation
-                value_tmp = default_value.copy()
-                value_tmp.update(value)
-                value = value_tmp
+                value = {**default_value, **value}
 
     elif default_value is not None:
         value = default_value
