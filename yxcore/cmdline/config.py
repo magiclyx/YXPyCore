@@ -50,7 +50,6 @@ arguments 3
 
 """
 
-from __future__ import unicode_literals
 import argparse
 
 __author__ = 'yuxi'

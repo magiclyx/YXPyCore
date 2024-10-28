@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from __future__ import unicode_literals
 from yxcore.logger.loaders import common
 from yxcore.logger.loaders import handler_loader
 from yxcore.logger.loaders.common import LOGGER_KEY

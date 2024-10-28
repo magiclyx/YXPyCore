@@ -5,8 +5,6 @@
 这里包装了python 的 logging。如果要自己实现，注意看一下logging的实现
 """
 
-from __future__ import unicode_literals
-
 import logging
 
 __author__ = 'yuxi'

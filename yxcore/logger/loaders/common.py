@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 
-from __future__ import unicode_literals
 from yxcore.utility import const
 from yxcore import settings
 # from yxcore.logger.loaders import common
