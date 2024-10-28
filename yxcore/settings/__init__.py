@@ -98,7 +98,7 @@ def _value_for_object(unknown_object, key_path):
 
     key_list = key_path.split('.')
 
-    if len(key_list) is 1:
+    if len(key_list) == 1:
 
         if isinstance(unknown_object, types.ModuleType):
             return getattr(unknown_object, key_path, None)

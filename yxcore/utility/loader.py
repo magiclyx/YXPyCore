@@ -43,7 +43,7 @@ def load(path, **kwargs):
         if sys.version_info[0] == 2:
             import imp
             return imp.load_compiled(load_module_name, load_module_path)
-        elif sys.version_info[0] is 3:
+        elif sys.version_info[0] == 3:
             import importlib
             if sys.version_info[0:2] > (3, 4):
                 import importlib.util
@@ -66,7 +66,7 @@ def load(path, **kwargs):
         if sys.version_info[0] == 2:
             import imp
             return imp.load_source(load_module_name, load_module_path)
-        elif sys.version_info[0] is 3:
+        elif sys.version_info[0] == 3:
             if sys.version_info[0:2] > (3, 4):
                 import importlib.util
                 spec = importlib.util.spec_from_file_location(load_module_name, load_module_path)
