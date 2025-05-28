@@ -148,9 +148,56 @@ def item_by_path(path):
     module_name = path[:index]
     class_name = path[index + 1:]
 
+    # 尝试从已加载的模块中获取
     # module 必须已经加载, build-in module, 已经import, 使用importlib.import_module 加载
-    #module = sys.modules.get(module_name, None)
-    module = load(module_name)
+    module = sys.modules.get(module_name, None)
+
+    # # 尝试从PWD加载指定包
+    if module is None:
+        try:
+            module = load(module_name)
+        except ImportError as msg:
+            # only ignore ImportError
+            pass
+
+    # 尝试从当前 YXCORE 路径加载指定包
+    # 仅对 build-in module 有效
+    if module is None:
+        try:
+            from yxcore.settings import SETTING_KEY
+            yxcore_lib_path=os.environ.get(SETTING_KEY.YXCORE_PATH)
+            # yxcore_lib_path=os.environ.get('YXCORE_PATH')
+            if yxcore_lib_path is not None and yxcore_lib_path != '':
+                yxcore_lib_base_path = os.path.dirname(yxcore_lib_path)
+                module = load(os.path.join(yxcore_lib_base_path, module_name))
+        except ImportError as msg:
+            # only ignore ImportError
+            pass
+
+    
+    module=None
+    # 尝试从 PYTHONPATH 加载指定包
+    if module is None:
+        try:
+            python_path_str=os.environ.get('PYTHONPATH')
+
+            if python_path_str is not None and python_path_str != '':
+                python_path_list=python_path_str.split(':')
+                for python_path in python_path_list:
+
+                    if python_path == '':
+                        continue
+
+                    module = load(os.path.join(python_path, module_name))
+                    if module is not None:
+                        break
+
+        except ImportError as msg:
+            # only ignore ImportError
+            pass
+                
+        
+
     if module is None:
         raise ImportError('没有找到module:%s' % (module_name,))
 
