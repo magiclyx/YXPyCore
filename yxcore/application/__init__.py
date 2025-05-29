@@ -67,6 +67,8 @@ def initialize(argv=None):
 
     # 获取setting路径
     setting_path = os.environ.get(SETTING_KEY.ENVIRONMENT_SETTING_KEY)
+    if setting_path is None:
+        raise YXLauchErrorException('未找到配置文件, 请添加环境变量 %s 指向配置文件所在路径' % SETTING_KEY.ENVIRONMENT_SETTING_KEY)
 
     try:
         # 加载用户配置文件
