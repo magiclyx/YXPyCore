@@ -131,11 +131,6 @@ def parse(argv=None):
     global _cmdline_param
     global _program_entry
 
-    if argv is None:
-        argv = sys.argv[1:]
-    else:
-        argv = argv[1:]
-
     # 获取当前配置
     config = settings.setting_for_keypath(CMDLINE_KEY.CATEGORY_NAME)
 

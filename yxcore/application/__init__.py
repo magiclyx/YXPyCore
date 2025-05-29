@@ -51,6 +51,21 @@ def initialize(argv=None):
     if _current_application is not None:
         raise YXLauchErrorException('多次初始化')
 
+    # 确认 argv 参数
+    if argv is None:
+        argv=sys.argv
+    else:
+        if not isinstance(argv, (list, tuple)):
+            raise YXLauchErrorException('argv 必须是一个列表或元组')
+
+    # 设置 PROGRAM_FILE_PATH 环境变量
+    os.environ.setdefault(SETTING_KEY.PROGRAM_FILE_PATH, argv[0])
+
+    # 从argv中删除程序路径参数
+    argv = argv[1:]
+
+
+    # 获取setting路径
     setting_path = os.environ.get(SETTING_KEY.ENVIRONMENT_SETTING_KEY)
 
     try:
