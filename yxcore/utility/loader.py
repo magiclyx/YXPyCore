@@ -141,6 +141,8 @@ def item_by_path(path):
     :param path:  e.g call this function use : item_by_path('yxcore.utility.loader.item_by_path')(path)
     """
 
+    from yxcore.settings import SETTING_KEY
+
     index = path.rfind('.')
     if index < 0 or index >= len(path) - 1:
         raise ImportError('错误的lib名称:%s' % (path,))
@@ -152,10 +154,13 @@ def item_by_path(path):
     # module 必须已经加载, build-in module, 已经import, 使用importlib.import_module 加载
     module = sys.modules.get(module_name, None)
 
-    # # 尝试从PWD加载指定包
+    # # 尝试从程序文件所在目录加载指定包
     if module is None:
         try:
-            module = load(module_name)
+            yxcore_program_path=os.environ.get(SETTING_KEY.PROGRAM_FILE_PATH)
+            if yxcore_program_path is not None and yxcore_program_path != '':
+                yxcore_program_base_path = os.path.dirname(yxcore_program_path)
+                module = load(os.path.join(yxcore_program_base_path, module_name))
         except ImportError as msg:
             # only ignore ImportError
             pass
@@ -164,7 +169,6 @@ def item_by_path(path):
     # 仅对 build-in module 有效
     if module is None:
         try:
-            from yxcore.settings import SETTING_KEY
             yxcore_lib_path=os.environ.get(SETTING_KEY.YXCORE_PATH)
             # yxcore_lib_path=os.environ.get('YXCORE_PATH')
             if yxcore_lib_path is not None and yxcore_lib_path != '':
@@ -175,7 +179,6 @@ def item_by_path(path):
             pass
 
     
-    module=None
     # 尝试从 PYTHONPATH 加载指定包
     if module is None:
         try:
@@ -200,8 +203,12 @@ def item_by_path(path):
 
     if module is None:
         raise ImportError('没有找到module:%s' % (module_name,))
+    
+    item = getattr(module, class_name, None)
+    if item is None:
+        raise ImportError('没有找到item:%s in module:%s' % (class_name, module_name))
 
-    return getattr(module, class_name, None)
+    return item
 
 
 def obj_has_attr(obj, attr_name):
