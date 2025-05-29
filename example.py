@@ -1,7 +1,6 @@
 #!/usr/bin/env python -00
 # -*- coding: utf-8 -*-
 
-import os
 import sys
 
 
@@ -9,7 +8,8 @@ __author__ = 'yuxi'
 
 
 if __name__ == "__main__":
-    os.environ.setdefault("YXCORE_SETTING_MODULE", "config")
+    # 未配置环境变量时, 使用
+    #os.environ.setdefault("YXCORE_SETTING_MODULE", os.path.join(os.path.dirname(__file__), 'config.py')) 
 
     from yxcore.application import execute_from_command_line
 
